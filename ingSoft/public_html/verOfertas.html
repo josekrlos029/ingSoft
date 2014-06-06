@@ -42,18 +42,20 @@
         });
 
         function cargarDatos() {
-            var url = "http://gestionempleos.spamedicopalace.com/empresa/publicarEmpresasMovil";
+            var idEmpresa = localStorage.getItem('idEmpresa');
+           
+            var url = "http://gestionempleos.spamedicopalace.com/ofertasEmpleo/publicarOfertasEmpresaMovil";
             $.ajax({
                 type: "POST",
                 url: url,
-                data: ""
+                data: { idEmpresa: idEmpresa}
             })
                     .done(function(msg) {
-
+                        var cont = 0;
                         var json = eval("(" + msg + ")");
                         for (var i =0; i< json.length; i++){
-                         
-                            $("#empresas").append('<div class="wide-item"><div class="wide-item-titles"><h4>'+json[i].nombre+'</h4></div><div class="wide-image"><div class="overlay"></div><a class="tile-wide" href="#" onclick="ofertas('+json[i].codigo+')"><img class="responsive-image" src="images/general-nature/1w.jpg" alt="img"></a></div></div>');
+                            cont = i+1;
+                            $("#empresas").append('<div class="wide-item"><div class="wide-item-titles"><h4>'+json[i].nombre+'</h4><p>'+json[i].descripcion+'</p></div><div class="wide-image"><div class="overlay"></div><a class="tile-wide" href="#"><img class="responsive-image" src="images/general-nature/'+ cont +'w.jpg" alt="img"></a></div></div>')
                             
                         }
                         
@@ -61,12 +63,7 @@
                     });
 
         } //FIN CARGARDATOS()
-        
-        function ofertas(idEmpresa){
-            localStorage.setItem('idEmpresa', idEmpresa);
-            location.href = 'verOfertas.html';
-            
-        }
+
     </script>
 
 </head>
@@ -143,34 +140,5 @@
             <p class="copyright uppercase center-text no-bottom">Copyright 2013<br> All rights reserved</p>        
         </div>
     </div>
-
-
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
