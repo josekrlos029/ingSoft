@@ -14,7 +14,7 @@
     <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"/>
     <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
 
-    <title>Epsilon Mobile Framework - Version 2.0</title>
+    <title>Login</title>
 
     <link href="styles/style.css"     		rel="stylesheet" type="text/css">
     <link href="styles/framework.css" 		rel="stylesheet" type="text/css">
@@ -35,38 +35,32 @@
     <script type="text/javascript" src="scripts/framework.launcher.js"></script>
     <script>
 
-        $(document).ready(function() {
-
-            cargarDatos();
-            
-        });
-
-        function cargarDatos() {
-            var url = "http://elempleo.liceogalois.com/Accion.php?modelo=Usuario&accion=listaEmpresas";
+        function login() {
+            var email = $("#email").val();
+            var clave = $("#clave").val();
+            var url = "http://elempleo.liceogalois.com/Accion.php?modelo=Login&accion=loginMovil";
             $.ajax({
                 type: "POST",
                 url: url,
-                data: ""
+                data: {
+                      email: email,
+                      clave: clave
+                      }
             })
                     .done(function(msg) {
 
                         var json = eval("(" + msg + ")");
-                        for (var i =0; i< json.length; i++){
-                            var cont = i + 1;
-                            $("#empresas").append('<div class="wide-item"><div class="wide-item-titles"><h4>'+json[i].nombre+'</h4></div><div class="wide-image"><div class="overlay"></div><a class="tile-wide" href="#" onclick="ofertas(&apos;'+json[i].email+'&apos;)"><img class="responsive-image" src="images/general-nature/'+cont+'w.jpg" alt="img"></a></div></div>');
-                            
+                
+                        if( json.autenticado == "true" ){
+                            localStorage.setItem("tipo",json.tipo);
+                            localStorage.setItem("email",json.email);
+                            location.href= 'index.html';
+                        }else{
+                            alert("Error al Ingresar Usuario o Contraseña");
                         }
-                        
                         
                     });
 
-        } //FIN CARGARDATOS()
-        
-        function ofertas(emailEmpresa){
-            
-            localStorage.setItem('emailEmpresa', emailEmpresa);
-            location.href = 'verOfertas.html';
-            
         }
     </script>
 
@@ -82,44 +76,45 @@
         </div>
     </div>
 
-    <div class="header">
-        <a href="#" class="show-navigation"></a>
-        <a href="#" class="hide-navigation"></a>
-        <img src="images/misc/logo.png" class="page-logo" alt="img">
-    </div>
+    <div class="homepage-wrapper">
+        <img class="homepage-logo" src="images/misc/logo.png"  alt="img">
+        <em class="homepage-logo-sub">Miles de Ofertas de Trabajo</em>
 
-    <div class="navigation">
-        <div class="navigation-wrapper">
-            <div class="nav-item">
-                <a href="index.html" class="landing-icon">Homepage<em class="unselected-item"></em></a>
-            </div>
-            <div class="nav-item">
-                <a href="perfil.html" class="homepage-icon">Perfil<em class="unselected-item"></em></a>
-            </div>
-            <div class="nav-item">
-                <a href="perfil.html" class="features-icon" onclick="salir()">salir<em class="unselected-item"></em></a>
-            </div>
+
+        <br>
+        <div style="width: 100%">
+            <input style="margin: 0 auto"  type="email" id="email" placeholder="Email" />
+            <br>
+            <input style="margin: 0 auto"  type="password" id="clave" placeholder="Contraseña" />
+            <br>
+            <a style="margin-left: 37%" href="#" class="button button-turqoise" onclick="login()">Iniciar Sesión</a>
+            <br>
             
         </div>
-    </div>
 
-    <div class="page-header-clear"></div>
 
-    <div id="empresas" class="wide-item-wrapper">
-        
-        
-    </div>
+        <div class="footer">
 
-    <div class="content">
-        <div class="decoration"></div>
-        <div class="container">
-            <div class="footer-socials">
-                <a href="#" class="facebook-footer"></a>
-                <a href="#" class="goup-footer"></a>
-                <a href="#" class="twitter-footer"></a>
-            </div>
-            <p class="copyright uppercase center-text no-bottom">Copyright 2013<br> All rights reserved</p>        
+            <div class="clear"></div>
+            <p class="homepage-copyright">Copyright 2014. <br>All Rights Reserved.</p>
         </div>
+
+        <div class="webapp-wrapper">
+            <div class="webapp">
+                <img src="images/splash/splash-icon.png" alt="img">
+                <h3>SLASHER</h3>
+                <p>You’re running iOS. Add this page to your homescreen for an enhanced experience!</p>
+                <em class="corner-deco"></em>
+                <a href="#" class="close-webapp">x</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="homepage-background">
+        <div class="bg-pattern"></div>
+        <div class="bg-overlay"></div>
+        <img id="bg" src="images/bg.png" alt="img">
     </div>
 </body>
 </html>

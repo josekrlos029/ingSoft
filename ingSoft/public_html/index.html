@@ -14,7 +14,7 @@
 <link rel="apple-touch-startup-image" sizes="1536x2008" href="images/splash/splash-screen-ipad-portrait-retina.png"   media="(device-width: 768px)	and (orientation: portrait)	and (-webkit-device-pixel-ratio: 2)"/>
 <link rel="apple-touch-startup-image" sizes="1496x2048" href="images/splash/splash-screen-ipad-landscape-retina.png"   media="(device-width: 768px)	and (orientation: landscape)	and (-webkit-device-pixel-ratio: 2)"/>
 
-<title>Ingeniería de Software</title>
+<title>Home</title>
 
 <link href="styles/style.css"     		rel="stylesheet" type="text/css">
 <link href="styles/framework.css" 		rel="stylesheet" type="text/css">
@@ -33,7 +33,28 @@
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript" src="scripts/framework.js"></script>
 <script type="text/javascript" src="scripts/framework.launcher.js"></script>
-
+<script>
+    
+    $(document).ready(function() {
+       
+        var tipo = localStorage.getItem("tipo");
+        
+        if (tipo == "empleado"){
+            $("#menu").append('<a class="type-icon"  href="postulaciones.html">Postulaciones</a>');
+            $("#login").hide();
+        }else if(tipo == "evaluador"){
+            $("#menu").append('<a class="type-icon"  href="evaluar.html">Evaluar Ofertas</a>');
+            $("#login").hide();
+        }else if(tipo == "empresa"){
+            $("#menu").append('<a class="type-icon"  href="crearOferta.html">Ofertar</a>');
+            $("#login").hide();
+        }else{
+            $("#menu").append('<a class="type-icon"  href="login.html">Postulaciones</a>');
+        }
+        
+    });
+    
+</script>
 
 </head>
 <body>
@@ -51,16 +72,14 @@
 	<img class="homepage-logo" src="images/misc/logo.png"  alt="img">
     <em class="homepage-logo-sub">Miles de Ofertas de Trabajo</em>
     
-    <div class="homepage-navigation">
+    <div class="homepage-navigation" id="menu">
     	<a class="home-icon"    href="ofertas.html">Ofertas</a>
-        <a class="type-icon"    href="type.html">Perfil</a>
-        <a class="mail-icon"  href="jquery.html">Postulaciones</a>
-        
+        <a class="jquery-icon"    href="type.html">Perfil</a>
         
     </div>
     
     
-    <a style="margin-left: 27%;" href="#" class="button button-blue">Conectarse con Facebook</a>
+    <a style="margin-left: 27%;" href="login.html" id="login" class="button button-blue">Iniciar Sesión</a>
     <div class="footer">
         
         <div class="clear"></div>
@@ -85,31 +104,5 @@
 	<img id="bg" src="images/bg.png" alt="img">
 </div>
 
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,8 +1,14 @@
 // JavaScript Document
 
-
 $(document).ready(function(){
 	
+        
+        function salir(){
+    localStorage.setItem("email", "");
+    localStorage.setItem("tipo", "");
+    location.href='index.html';
+}
+
 	//Go up
 	
 	$('.goup-footer').click(function() {

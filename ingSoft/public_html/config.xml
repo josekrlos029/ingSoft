@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns		= "http://www.w3.org/ns/widgets"
         xmlns:gap	= "http://phonegap.com/ns/1.0"
-        id		= "com.Nimble.ingSoft"
+        id		= "com.Nimble.tuEmpleo"
         version 	= "1.0.0">
 
-    <name>IngSoft</name>
+    <name>TuEmpleo</name>
 
     <description>
-        ...
+        Aquí encontraras el empleo que necesites ! 
     </description>
 
     <author href="https://www.facebook.com/josekrlos029"

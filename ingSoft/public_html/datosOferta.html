@@ -38,36 +38,60 @@
         $(document).ready(function() {
 
             cargarDatos();
-            
+
         });
 
         function cargarDatos() {
-            var url = "http://elempleo.liceogalois.com/Accion.php?modelo=Usuario&accion=listaEmpresas";
+            var idOferta = localStorage.getItem("idOferta");
+            var url = "http://elempleo.liceogalois.com/Accion.php?modelo=OfertaEmpleo&accion=consultarOferta";
             $.ajax({
                 type: "POST",
                 url: url,
-                data: ""
+                data: { idOferta: idOferta}
             })
                     .done(function(msg) {
 
-                        var json = eval("(" + msg + ")");
-                        for (var i =0; i< json.length; i++){
-                            var cont = i + 1;
-                            $("#empresas").append('<div class="wide-item"><div class="wide-item-titles"><h4>'+json[i].nombre+'</h4></div><div class="wide-image"><div class="overlay"></div><a class="tile-wide" href="#" onclick="ofertas(&apos;'+json[i].email+'&apos;)"><img class="responsive-image" src="images/general-nature/'+cont+'w.jpg" alt="img"></a></div></div>');
-                            
-                        }
-                        
-                        
+                       var json = eval("(" + msg + ")");
+                        $("#empresa").text(json.empresa);
+                        $("#oferta").text(json.nombre);
+                        $("#requisitos").text(json.requisitos);
+                        $("#salario").text(json.salario);
+                        $("#tipo").text(json.tipo);
+                        $("#descripcion").text(json.descripcion);
+                        $("#boton").append('<a href="#" class="button button-blue" onclick="solicitar()">Solicitar Puesto</a>');
+
+
                     });
 
         } //FIN CARGARDATOS()
-        
-        function ofertas(emailEmpresa){
-            
-            localStorage.setItem('emailEmpresa', emailEmpresa);
-            location.href = 'verOfertas.html';
-            
+
+        function solicitar() {
+
+            var idOferta= localStorage.getItem('idOferta');
+            var email = localStorage.getItem('email');
+            var url = "http://elempleo.liceogalois.com/Accion.php?modelo=SolicitarEmpleo&accion=registrarMovil";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { idOferta: idOferta,
+                        email: email
+                       }
+            })
+                    .done(function(msg) {
+
+                       var json = eval("(" + msg + ")");
+               
+                       if (json.respuesta == "exito"){
+                           alert("Solicitud realizada Correctamente, Espera tu respuesta !");
+                           location.href= 'index.html';
+                       }else{
+                           alert("Error al Realizar Solicitud");
+                       }
+                        
+                    });
+
         }
+
     </script>
 
 </head>
@@ -76,8 +100,8 @@
     <div id="preloader">
         <div id="status">
             <p class="center-text">
-                Cargando el Contenido...
-                <em>Depende de la velocidad de tu internet!</em>
+                Loading the content...
+                <em>Loading depends on your connection speed!</em>
             </p>
         </div>
     </div>
@@ -105,9 +129,60 @@
 
     <div class="page-header-clear"></div>
 
-    <div id="empresas" class="wide-item-wrapper">
-        
-        
+    <div class="content">
+
+        <div id="contenido" class="container no-bottom">
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Empresa</h3>
+            <p class="center-text" id="empresa">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Oferta</h3>
+            <p class="center-text" id="oferta">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Descripción</h3>
+            <p class="center-text" id="descripcion">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Requisitos</h3>
+            <p class="center-text" id="requisitos">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Salario</h3>
+            <p class="center-text" id="salario">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Tiempo de Trabajo</h3>
+            <p class="center-text" id="tipo">
+
+            </p>
+            
+            <div class="decoration"></div>
+
+            <h3 class="center-text">Necesito el Empleo</h3>
+            <p class="center-text" id="boton">
+                
+            </p>
+            
+        </div>
+
     </div>
 
     <div class="content">
@@ -121,5 +196,9 @@
             <p class="copyright uppercase center-text no-bottom">Copyright 2013<br> All rights reserved</p>        
         </div>
     </div>
+
+
+
+
 </body>
 </html>
